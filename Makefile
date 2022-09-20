@@ -10,11 +10,11 @@ RESET = \e[0
 BLUE = \033[34m
 CYAN = \033[36m
 
-NAME = philo
+NAME = minishell
 
-SRCS 	= srcs/philo.c utils/utils.c utils/ft_atol.c srcs/check_args.c srcs/gettimeofday_ms.c srcs/call_philo.c srcs/lets_eat.c srcs/actions.c srcs/memory.c srcs/mutex.c
+SRCS 	= srcs/prompt.c
 OBJS 	= ${SRCS:.c=.o}
-MAIN	= srcs/philo.c
+MAIN	= srcs/prompt.c
 
 HEADER	= -Iinclude
 
