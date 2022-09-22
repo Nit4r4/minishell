@@ -17,11 +17,14 @@ OBJS 	= ${SRCS:.c=.o}
 MAIN	= srcs/prompt.c
 
 HEADER	= -Iinclude
-LIB = utils/libft/libft.a
+
+LIB = utils/libft/libft.a utils/ft_printf/libftprintf.a
 LBFT_PATH = ./utils/libft/
+PRINTF_PATH = ./utils/ft_printf/
 
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror #-g -fsanitize=address
+LFLAGS = -lreadline
 
 AR = ar rc
 RM = rm -f
@@ -34,9 +37,10 @@ all: 		${NAME}
 ${NAME}:	${OBJS}
 					@echo "$(CYAN)---- Compiling library ----"
 					@sleep 0.2
-					@echo "$(GREEN2)📚 Link Libft"
+					@echo "$(GREEN2)📚 Link paths"
 					@$(MAKE) -C $(LBFT_PATH)
-					@$(CC) $(CFLAGS) ${OBJS} -o $(NAME) $(LIB)
+					@$(MAKE) -C $(PRINTF_PATH)
+					@$(CC) $(CFLAGS) ${LFLAGS} ${OBJS} -o $(NAME) $(LIB)
 					@printf "$(BLUE)🍵 Creating $(NAME)$(RESET)\n"
 					@sleep 0.2
 					@echo "$(CYAN)MiniShell Compiled ! \033[39m(\033[31m๑\033[39m╹◡╹\033[31m๑\033[39m)"
@@ -48,7 +52,8 @@ clean:
 					@sleep 0.2
 					@printf "$(BLUE)🧽 Cleaning $(NAME)$(RESET)\n"
 					@$(MAKE) -C $(LBFT_PATH) clean
-					@echo "$(GREEN2)📚 Cleaning libft"
+					@$(MAKE) -C $(PRINTF_PATH) clean
+					@echo "$(GREEN2)📚 Cleaning paths"
 					@sleep 0.2
 					@echo "$(YELLOW)MiniShell is all clean ! $(ORANGE)(ﾉ◕ヮ◕)ﾉ$(YELLOW)*:･ﾟ✧"
 					@sleep 0.2
