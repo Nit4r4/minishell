@@ -6,7 +6,7 @@
 /*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 11:11:57 by creyt             #+#    #+#             */
-/*   Updated: 2022/09/22 13:05:19 by creyt            ###   ########.fr       */
+/*   Updated: 2022/09/22 15:44:06 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../utils/libft/libft.h"
+# include "../utils/ft_printf/ft_printf.h"
 
 /* DEFINE COLORS */
 # define PURP "\e[35m"
@@ -43,11 +44,20 @@
 
 /* STRUCT */
 
-/* UTILS */
+typedef struct s_shell
+{
+	char	**env;
+}	t_shell;
+
+typedef struct s_cmd
+{
+	char	**args;
+}	t_cmd;
 
 /* MANDATORY */
 
 int		ft_echo(char **tab);
 int		ft_pwd(void);
+int		ft_env(t_shell *shell, char **tab);
 
 #endif

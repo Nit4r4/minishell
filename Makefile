@@ -12,17 +12,19 @@ CYAN = \033[36m
 
 NAME = minishell
 
-SRCS 	= builtins/echo.c builtins/pwd.c
+SRCS 	= builtins/echo.c builtins/pwd.c builtins/env.c
 OBJS 	= ${SRCS:.c=.o}
 MAIN	= builtins/echo.c
 
 HEADER	= -Iinclude
 
+LIB = utils/libft/libft.a
+LBFT_PATH = ./utils/libft/
+PRINTF_PATH = ./utils/ft_printf/
+
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror #-g -fsanitize=address
-
-LIBFT_PATH = ./utils/libft/
-LIB = utils/libft/libft.a
+LFLAGS = -lreadline
 
 AR = ar rc
 RM = rm -f
@@ -34,27 +36,33 @@ all: 		${NAME}
 
 ${NAME}:	${OBJS}
 					@echo "$(CYAN)---- Compiling library ----"
-					@$(MAKE) -C $(LIBFT_PATH)
-					@$(CC) $(CFLAGS) ${OBJS} -o $(NAME) $(LIB)
+					@sleep 0.2
+					@echo "$(GREEN2)📚 Link paths"
+					@$(MAKE) -C $(LBFT_PATH)
+					@$(MAKE) -C $(PRINTF_PATH)
+					@$(CC) $(CFLAGS) ${LFLAGS} ${OBJS} -o $(NAME) $(LIB)
 					@sleep 0.2
 					@printf "$(GREEN)🍵 Creating $(NAME)$(RESET)\n"
+					@printf "$(BLUE)🍵 Creating $(NAME)$(RESET)\n"
 					@sleep 0.2
-					@echo "$(GREEN2)Minishell Compiled ! \033[32m(\033[31m๑\033[32m╹◡╹\033[31m๑\033[32m)"
+					@echo "$(CYAN)MiniShell Compiled ! \033[39m(\033[31m๑\033[39m╹◡╹\033[31m๑\033[39m)"
 					@sleep 0.2
 
 clean:
 					@${RM} ${OBJS}
-					@$(MAKE) -C $(LIBFT_PATH) clean
-					@echo "$(CYAN)---- Compiling library ----"
+					@echo "$(YELLOW)---- Cleaning library ----"
 					@sleep 0.2
-					@printf "$(YELLOW)🧽 Cleaning $(NAME)$(RESET)\n"
+					@printf "$(BLUE)🧽 Cleaning $(NAME)$(RESET)\n"
+					@$(MAKE) -C $(LBFT_PATH) clean
+					@$(MAKE) -C $(PRINTF_PATH) clean
+					@echo "$(GREEN2)📚 Cleaning paths"
 					@sleep 0.2
-					@echo "$(YELLOW)Minishell is clean ! $(ORANGE)(ﾉ◕ヮ◕)ﾉ$(YELLOW)*:･ﾟ✧"
+					@echo "$(YELLOW)MiniShell is all clean ! $(ORANGE)(ﾉ◕ヮ◕)ﾉ$(YELLOW)*:･ﾟ✧"
 					@sleep 0.2
 
 fclean: 	clean
 					@${RM} $(NAME)
-					@$(MAKE) -C $(LIBFT_PATH) fclean
+					@$(MAKE) -C $(LBFT_PATH) fclean
 					@echo "\033[31mEverything is deleting now ! ¯\_(ツ)_/¯"
 					@sleep 0.2
 					@printf "\r$(PURP)🗑  $(NAME) have been removed$(RESET)\n"
