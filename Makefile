@@ -12,7 +12,7 @@ CYAN = \033[36m
 
 NAME = minishell
 
-SRCS 	= srcs/prompt.c
+SRCS 	= srcs/prompt.c srcs/money_money_money.c
 OBJS 	= ${SRCS:.c=.o}
 MAIN	= srcs/prompt.c
 

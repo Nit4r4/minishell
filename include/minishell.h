@@ -21,6 +21,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../utils/libft/libft.h"
+# include "../utils/ft_printf/ft_printf.h"
 
 /* DEFINE COLORS */
 # define PURP "\e[35m"
@@ -34,10 +35,12 @@
 # define CYAN "\033[36m"
 
 /* ERRORS MESSAGES */
+# define ERR "\e[31mERROR"
 
 /* STRUCT */
 
 /* UTILS */
+int	ft_no_one(char *str);
 
 /* MANDATORY */
 
