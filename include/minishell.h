@@ -18,6 +18,9 @@
 # include <pthread.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "../utils/libft/libft.h"
 
 /* DEFINE COLORS */
 # define PURP "\e[35m"
