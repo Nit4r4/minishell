@@ -1,8 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
+
 /*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 11:11:57 by creyt             #+#    #+#             */
@@ -44,12 +40,12 @@
 
 /* STRUCT */
 
-typedef struct s_shell
+typedef struct	s_shell
 {
 	char	**env;
 }	t_shell;
 
-typedef struct s_cmd
+typedef struct	s_cmd
 {
 	char	**args;
 }	t_cmd;
@@ -59,5 +55,9 @@ typedef struct s_cmd
 int		ft_echo(char **tab);
 int		ft_pwd(void);
 int		ft_env(t_shell *shell, char **tab);
+
+/* UTILS */
+
+/* MANDATORY */
 
 #endif

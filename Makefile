@@ -12,13 +12,13 @@ CYAN = \033[36m
 
 NAME = minishell
 
-SRCS 	= builtins/echo.c builtins/pwd.c builtins/env.c
+SRCS 	= srcs/prompt.c
 OBJS 	= ${SRCS:.c=.o}
-MAIN	= builtins/echo.c
+MAIN	= srcs/prompt.c
 
 HEADER	= -Iinclude
 
-LIB = utils/libft/libft.a
+LIB = utils/libft/libft.a utils/ft_printf/libftprintf.a
 LBFT_PATH = ./utils/libft/
 PRINTF_PATH = ./utils/ft_printf/
 
@@ -41,8 +41,6 @@ ${NAME}:	${OBJS}
 					@$(MAKE) -C $(LBFT_PATH)
 					@$(MAKE) -C $(PRINTF_PATH)
 					@$(CC) $(CFLAGS) ${LFLAGS} ${OBJS} -o $(NAME) $(LIB)
-					@sleep 0.2
-					@printf "$(GREEN)🍵 Creating $(NAME)$(RESET)\n"
 					@printf "$(BLUE)🍵 Creating $(NAME)$(RESET)\n"
 					@sleep 0.2
 					@echo "$(CYAN)MiniShell Compiled ! \033[39m(\033[31m๑\033[39m╹◡╹\033[31m๑\033[39m)"
