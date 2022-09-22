@@ -8,3 +8,34 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# include <stdlib.h>
+# include <unistd.h>
+# include <string.h>
+# include <stdio.h>
+# include <sys/time.h>
+# include <fcntl.h>
+# include <pthread.h>
+# include <limits.h>
+# include <stdbool.h>
+
+/* DEFINE COLORS */
+# define PURP "\e[35m"
+# define GREEN "\e[32m"
+# define RED "\e[31m"
+# define WHITE "\e[39m"
+# define YELLOW "\033[33m"
+# define ORANGE "$(shell tput setaf 208)"
+# define RESET "\e[0"
+# define BLUE "\033[34m"
+# define CYAN "\033[36m"
+
+/* ERRORS MESSAGES */
+
+/* STRUCT */
+
+/* UTILS */
+
+/* MANDATORY */
+
+#endif
