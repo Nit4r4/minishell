@@ -18,6 +18,13 @@ MAIN	= srcs/prompt.c
 
 HEADER	= -Iinclude
 
+RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+RL_P	:= $(shell brew --cellar readline)
+RL		= $(RL_P)/$(RL_V)
+LIBS	= -L $(RL)/lib/ -lreadline -lhistory
+
+INC		= -I. -I $(RL)/include/
+
 LIB = utils/libft/libft.a utils/ft_printf/libftprintf.a
 LBFT_PATH = ./utils/libft/
 PRINTF_PATH = ./utils/ft_printf/
@@ -30,7 +37,7 @@ AR = ar rc
 RM = rm -f
 
 .c.o:		%.o : %.c
-					@gcc ${CFLAGS} ${HEADER} -c $< -o $(<:.c=.o)
+					@gcc ${CFLAGS} ${HEADER} -c $(INC) $< -o $(<:.c=.o)
 
 all: 		${NAME}
 
