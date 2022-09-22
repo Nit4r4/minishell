@@ -10,16 +10,19 @@ RESET = \e[0
 BLUE = \033[34m
 CYAN = \033[36m
 
-NAME = philo
+NAME = minishell
 
-SRCS 	= srcs/philo.c utils/utils.c utils/ft_atol.c srcs/check_args.c srcs/gettimeofday_ms.c srcs/call_philo.c srcs/lets_eat.c srcs/actions.c srcs/memory.c srcs/mutex.c
+SRCS 	= builtins/echo.c builtins/pwd.c
 OBJS 	= ${SRCS:.c=.o}
-MAIN	= srcs/philo.c
+MAIN	= builtins/echo.c
 
 HEADER	= -Iinclude
 
 CC 		= gcc
 CFLAGS 	= -Wall -Wextra -Werror #-g -fsanitize=address
+
+LIBFT_PATH = ./utils/libft/
+LIB = utils/libft/libft.a
 
 AR = ar rc
 RM = rm -f
@@ -31,25 +34,27 @@ all: 		${NAME}
 
 ${NAME}:	${OBJS}
 					@echo "$(CYAN)---- Compiling library ----"
-					@$(CC) $(CFLAGS) ${OBJS} -lpthread -o $(NAME)
+					@$(MAKE) -C $(LIBFT_PATH)
+					@$(CC) $(CFLAGS) ${OBJS} -o $(NAME) $(LIB)
 					@sleep 0.2
 					@printf "$(GREEN)🍵 Creating $(NAME)$(RESET)\n"
 					@sleep 0.2
-					@echo "$(GREEN2)Philo Compiled ! \033[32m(\033[31m๑\033[32m╹◡╹\033[31m๑\033[32m)"
+					@echo "$(GREEN2)Minishell Compiled ! \033[32m(\033[31m๑\033[32m╹◡╹\033[31m๑\033[32m)"
 					@sleep 0.2
 
-clean:	
-					@${RM} ${OBJS} ${OBJS_B}
+clean:
+					@${RM} ${OBJS}
+					@$(MAKE) -C $(LIBFT_PATH) clean
 					@echo "$(CYAN)---- Compiling library ----"
 					@sleep 0.2
 					@printf "$(YELLOW)🧽 Cleaning $(NAME)$(RESET)\n"
 					@sleep 0.2
-					@echo "$(YELLOW)Philo is clean ! $(ORANGE)(ﾉ◕ヮ◕)ﾉ$(YELLOW)*:･ﾟ✧"
+					@echo "$(YELLOW)Minishell is clean ! $(ORANGE)(ﾉ◕ヮ◕)ﾉ$(YELLOW)*:･ﾟ✧"
 					@sleep 0.2
 
 fclean: 	clean
 					@${RM} $(NAME)
-					@${RM} ${NAME_B}
+					@$(MAKE) -C $(LIBFT_PATH) fclean
 					@echo "\033[31mEverything is deleting now ! ¯\_(ツ)_/¯"
 					@sleep 0.2
 					@printf "\r$(PURP)🗑  $(NAME) have been removed$(RESET)\n"
