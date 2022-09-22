@@ -40,12 +40,14 @@
 
 /* STRUCT */
 
-typedef struct	s_shell
+typedef struct s_shell
 {
 	char	**env;
+	t_cmd	*cmd;
+
 }	t_shell;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	char	**args;
 }	t_cmd;

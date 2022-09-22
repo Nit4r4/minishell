@@ -6,7 +6,7 @@
 /*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 11:01:44 by creyt             #+#    #+#             */
-/*   Updated: 2022/09/22 14:54:29 by creyt            ###   ########.fr       */
+/*   Updated: 2022/09/22 16:57:26 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,6 @@ int	ft_echo(char **tab)
 		printf("\n");
 	}
 	return (0);
-}
-
-int	main(int argc, char **argv)
-{
-	(void) argv;
-	if (argc >= 2)
-		ft_env(argv[1]);
-	else
-		printf("error argument");
 }
 
 /* main pwd
