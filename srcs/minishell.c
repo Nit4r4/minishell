@@ -6,7 +6,7 @@
 /*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 17:07:17 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 16:07:26 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/09/27 16:10:44 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	ft_exec_cmd(char *str, char **envp_copy)
 
 int	main(int argc, char **argv, char **envp)
 {
+	printf("coucou");
 	char	*str;
 
 	(void)argv;
