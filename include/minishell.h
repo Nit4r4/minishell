@@ -6,7 +6,7 @@
 /*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:21:03 by vferraro          #+#    #+#             */
-/*   Updated: 2022/09/27 14:29:04 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:23:30 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <pthread.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../utils/libft/libft.h"
