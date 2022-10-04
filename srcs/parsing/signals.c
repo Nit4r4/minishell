@@ -6,7 +6,7 @@
 /*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 17:52:04 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:36:46 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/04 13:23:58 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	display_prompt_block(int num)
 {
 	num++;
-	write(1, "\n", 1);
+	ft_printf("\n");
+	//write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }

@@ -6,7 +6,7 @@
 /*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 15:41:17 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:39:36 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/04 13:38:07 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ int	ft_echo_fd(int fd_out, char **cmd_test)
 {
 	int	i;
 
+	i = 1;
+	if (!cmd_test[i])
+		ft_printf("\n");
 	if (ft_strncmp(cmd_test[1], "-n", 2) == 0 && !cmd_test[1][2])
 	{
 		i = 2;
