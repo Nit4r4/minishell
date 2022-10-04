@@ -6,7 +6,7 @@
 /*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 17:07:17 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 16:13:38 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/04 11:18:07 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	main(int argc, char **argv, char **envp)
 	while (42)
 	{
 		define_input_signals();
-		str = readline("prompt> ");
+		str = readline("minishell-1.0$ ");
 		if (str == NULL)
 			break ;
 		if (ft_check_space_test(str) == 1 || str[0] == '\0')
