@@ -6,7 +6,7 @@
 /*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 15:41:17 by santonie          #+#    #+#             */
-/*   Updated: 2022/10/04 13:38:07 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/04 14:35:33 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ int	ft_echo_fd(int fd_out, char **cmd_test)
 	{
 		i = 2;
 		while (cmd_test[i] && cmd_test[i + 1])
-		{
-			ft_write_echo(fd_out, cmd_test[i]);
-			i++;
-		}
+			ft_write_echo(fd_out, cmd_test[i++]);
 		write(fd_out, cmd_test[i], ft_strlen(cmd_test[i]));
 	}
 	else

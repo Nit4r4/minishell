@@ -6,7 +6,7 @@
 /*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 14:55:35 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:39:39 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/04 14:26:50 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,16 @@ char	*ft_check_dollars(char *str, char **g_var, int *code_caractere)
 	free(tmp);
 	return (str);
 }
+
+// reponse a :
+// (dans bash) 
+// $D
+// bash: $/D: No such file or directory
+
+// bash-3.2$ $
+// bash: $: command not found
+// bash-3.2$ $USER
+// bash: vferraro: command not found
+
+// mettre 
+// minishell: str: No such file or directory
