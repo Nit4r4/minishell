@@ -34,15 +34,19 @@
 # define BLUE "\033[34m"
 # define CYAN "\033[36m"
 
-# define MAX_PATH 1024
-
 /* ERRORS MESSAGES */
 
 /* STRUCT */
 
 typedef struct s_shell
 {
+	char	**var;
 	char	**env;
+	char	**env_c;
+	char	*cwd;
+	char	*cwdbis;
+	char	*home;
+	char	*home;
 	t_cmd	*cmd;
 
 }	t_shell;
@@ -50,10 +54,14 @@ typedef struct s_shell
 typedef struct s_cmd
 {
 	char	**args;
+	char	*new_arg;
+	t_shell	*shell;
 }	t_cmd;
+
 
 /* MANDATORY */
 
+int		ft_cd(t_shell *shell);
 int		ft_echo(char **tab);
 int		ft_pwd(void);
 int		ft_env(t_shell *shell, char **tab);

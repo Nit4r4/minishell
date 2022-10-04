@@ -12,11 +12,23 @@ CYAN = \033[36m
 
 NAME = minishell
 
-SRCS 	= srcs/prompt.c
+SRCS = srcs/prompt.c
+		builtins/echo.c
+		builtins/env.c
+		builtins/export.c
+		builtins/pwd.c
+		builtins/unset.c
 OBJS 	= ${SRCS:.c=.o}
-MAIN	= srcs/prompt.c
+MAIN	= srcs/minishell.c
 
 HEADER	= -Iinclude
+
+RL_V	:= $(shell brew list --versions  readline | sed 's/.*[[:blank:]]//')
+RL_P	:= $(shell brew --cellar readline)
+RL		= $(RL_P)/$(RL_V)
+#LIBS	= -L $(RL)/lib/ -lreadline -lhistory
+
+INC		= -I. -I $(RL)/include/
 
 LIB = utils/libft/libft.a utils/ft_printf/libftprintf.a
 LBFT_PATH = ./utils/libft/
@@ -40,7 +52,7 @@ ${NAME}:	${OBJS}
 					@echo "$(GREEN2)📚 Link paths"
 					@$(MAKE) -C $(LBFT_PATH)
 					@$(MAKE) -C $(PRINTF_PATH)
-					@$(CC) $(CFLAGS) ${LFLAGS} ${OBJS} -o $(NAME) $(LIB)
+					@$(CC) $(CFLAGS) ${LFLAGS} ${OBJS} -o $(NAME) $(LIB) $(LIBS)
 					@printf "$(BLUE)🍵 Creating $(NAME)$(RESET)\n"
 					@sleep 0.2
 					@echo "$(CYAN)MiniShell Compiled ! \033[39m(\033[31m๑\033[39m╹◡╹\033[31m๑\033[39m)"
@@ -61,6 +73,7 @@ clean:
 fclean: 	clean
 					@${RM} $(NAME)
 					@$(MAKE) -C $(LBFT_PATH) fclean
+					@$(MAKE) -C $(PRINTF_PATH) fclean
 					@echo "\033[31mEverything is deleting now ! ¯\_(ツ)_/¯"
 					@sleep 0.2
 					@printf "\r$(PURP)🗑  $(NAME) have been removed$(RESET)\n"
