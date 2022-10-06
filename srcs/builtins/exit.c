@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 16:04:04 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:39:15 by vferraro         ###   ########.fr       */
+/*   Created: 2022/10/06 13:32:29 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 13:40:16 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 static int	_get_err_code(int err_code, bool set_err_code)
 {
@@ -53,20 +53,20 @@ long long	ft_atol(char *str)
 	return (n * is_negative);
 }
 
-static bool	is_valid_exit_arg(char *args[])
+static bool	is_valid_exit_arg(t_cmd *cmd)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (args && args[i])
+	while (cmd->args && cmd->args[i])
 	{
 		j = 0;
-		while (args[i][j])
+		while (cmd->args[i][j])
 		{
-			if (ft_issign(args[i][j]))
+			if (ft_issign(cmd->args[i][j]))
 				j++;
-			if (!ft_isdigit(args[i][j]))
+			if (!ft_isdigit(cmd->args[i][j]))
 				return (false);
 			j++;
 		}
@@ -75,29 +75,29 @@ static bool	is_valid_exit_arg(char *args[])
 	return (true);
 }
 
-int	ft_exit(char *args[])
+int	ft_exit(t_cmd *cmd)
 {
 	long long	exit_code;
 	int			i;
 
 	i = 1;
-	if (!args[1])
+	if (!cmd->args[1])
 	{
 		printf("exit\n");
 		exit_code = 0;
 		exit(exit_code);
 		return (exit_code);
 	}
-	if (args[i])
-		exit_code = ft_atol(args[i]);
+	if (cmd->args[i])
+		exit_code = ft_atol(cmd->args[i]);
 	else
 		exit_code = get_err_code();
-	if (!is_valid_exit_arg(args + i) || ft_strlen(args[i]) > 20)
+	if (!is_valid_exit_arg(cmd->args + i) || ft_strlen(cmd->args[i]) > 20)
 	{
-		printf("exit: not a valid argument\n");
+	    ft_printf("exit: not a valid argument\n");
 		exit_code = 255;
 	}
-	printf("exit\n");
+	ft_printf("exit\n");
 	exit(exit_code);
 	return (ft_static(exit_code));
 }

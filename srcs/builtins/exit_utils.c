@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/27 16:39:48 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:39:24 by vferraro         ###   ########.fr       */
+/*   Created: 2022/10/06 13:41:05 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 13:41:33 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 int	ft_issign(char c)
 {

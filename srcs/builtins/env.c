@@ -5,26 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 15:45:35 by santonie          #+#    #+#             */
-/*   Updated: 2022/10/06 11:27:16 by vferraro         ###   ########.fr       */
+/*   Created: 2022/09/22 13:46:28 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 16:30:47 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "minishell.h"
 
-int	ft_env_fd(t_shell *shell, int fd_out, char **g_var)
+int	ft_env_fd(t_shell *shell)
 {
-	int	j;
+	int	i;
 
-	j = 0;
-	(void) shell->envp;
-	if (g_var)
+	i = 0;
+	if (shell->env)
 	{
-		while (g_var[j])
+		while (shell->env[i])
 		{
-			write(fd_out, g_var[j], ft_strlen(g_var[j]));
-			write(fd_out, "\n", 1);
-			j++;
+			ft_printf("%s\n", shell->env[i]);
+			i++;
 		}
 	}
 	exit (0);

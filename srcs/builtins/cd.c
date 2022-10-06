@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 16:01:22 by creyt             #+#    #+#             */
-/*   Updated: 2022/10/06 10:41:22 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:50:31 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,6 @@ void	ft_replace_pwd(t_shell *shell)
 	}
 }
 
-char	**ft_env_copy(char **envp_copy)
-{
-	int		i;
-	char	**copy_env;
-
-	i = 0;
-	while (envp_copy[i])
-		i++;
-	copy_env = malloc((i + 1) * sizeof(char *));
-	i = 0;
-	while (envp_copy[i])
-	{
-		copy_env[i] = ft_strdup(envp_copy[i]);
-		i++;
-	}
-	copy_env[i] = NULL;
-	return (copy_env);
-}
-
 int	ft_free_cwd(t_shell *shell)
 {
 	free(shell->cwd);
@@ -70,18 +51,18 @@ void	p_error(t_shell *shell)
 int	ft_cd(t_shell *shell)
 {
 	int	i;
-	char	**args;
+    char **cmd;
 
 	i = 0;
-	args = shell->cmd->args;
+    cmd = shell->cmd->cmd_test;
 	shell->cwd = NULL;
 	shell->cwdbis = NULL;
 	shell->cwd = getcwd(shell->cwd, 0);
 	shell->home = NULL;
 	/* trouver comme initialiser le home par une fonction */
-	if ((args[1] && args[1][0] != '~') || (args[1] && args[1][0] == '~' && args[1][1]))
-		i = chdir(args[1]);
-	else if (!args[1] || (args[1][0] == '~') && !args[1] && !args[1][1])
+	if ((cmd[1] && cmd[1][0] != '~') || (cmd[1] && cmd[1][0] == '~' && cmd[1][1]))
+		i = chdir(cmd[1]);
+	else if (!cmd[1] || (cmd[1][0] == '~') && !cmd[1] && !cmd[1][1])
 		i = chdir(shell->home);
 	if (i != 0)
 	{
@@ -89,7 +70,7 @@ int	ft_cd(t_shell *shell)
 		return (0);
 	}
 	shell->cwdbis = getcwd(shell->cwdbis, 0);
-	ft_replace_pwd(shell);
+    ft_replace_pwd(shell);
 	ft_free_cwd(shell);
 	return (0);
 }

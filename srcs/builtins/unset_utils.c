@@ -3,35 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   unset_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 17:48:27 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:37:31 by vferraro         ###   ########.fr       */
+/*   Created: 2022/10/06 13:29:49 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 13:32:03 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 void	ft_sort_alpha_bis(void)
 {
+    t_shell *shell;
 	int		k;
 	int		j;
 	char	*tmp;
 
 	k = 0;
 	j = 0;
-	while (g_var[k])
+	while (shell->env[k])
 	{
 		j = 0;
-		while (g_var[j])
+		while (shell->env[j])
 		{
-			if (ft_strcmp(g_var[k], g_var[j]) < 0)
+			if (ft_strcmp(shell->env[k], shell->env[j]) < 0)
 			{
-				tmp = ft_strdup(g_var[k]);
-				free(g_var[k]);
-				g_var[k] = ft_strdup(g_var[j]);
-				free(g_var[j]);
-				g_var[j] = ft_strdup(tmp);
+				tmp = ft_strdup(shell->env[k]);
+				free(shell->env[k]);
+				shell->env[k] = ft_strdup(shell->env[j]);
+				free(shell->env[j]);
+				shell->env[j] = ft_strdup(tmp);
 				free(tmp);
 			}
 			j++;
@@ -40,7 +41,7 @@ void	ft_sort_alpha_bis(void)
 	}
 }
 
-void	ft_sort_alpha_bis_envp(char **g_var)
+void	ft_sort_alpha_bis_envp(t_shell *shell)
 {
 	int		k;
 	int		j;
@@ -48,18 +49,18 @@ void	ft_sort_alpha_bis_envp(char **g_var)
 
 	k = 0;
 	j = 0;
-	while (g_var[k])
+	while (shell->env[k])
 	{
 		j = 0;
-		while (g_var[j])
+		while (shell->env[j])
 		{
-			if (ft_strcmp(g_var[k], g_var[j]) < 0)
+			if (ft_strcmp(shell->env[k], shell->env[j]) < 0)
 			{
-				tmp = ft_strdup(g_var[k]);
-				free(g_var[k]);
-				g_var[k] = ft_strdup(g_var[j]);
-				free(g_var[j]);
-				g_var[j] = ft_strdup(tmp);
+				tmp = ft_strdup(shell->env[k]);
+				free(shell->env[k]);
+				shell->env[k] = ft_strdup(shell->env[j]);
+				free(shell->env[j]);
+				shell->env[j] = ft_strdup(tmp);
 				free(tmp);
 			}
 			j++;

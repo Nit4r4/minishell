@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redir_out.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 17:45:06 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:37:47 by vferraro         ###   ########.fr       */
+/*   Created: 2022/10/06 15:17:35 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 15:23:03 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 void	ft_sub_exec(int sortie)
 {
@@ -22,37 +22,37 @@ void	ft_sub_exec(int sortie)
 	ft_static(WEXITSTATUS(sortie));
 }
 
-void	ft_freeeee(char **commande, char *path, int fd_out)
+void	ft_freeeee(t_cmd *cmd, char *path)
 {
-	ft_free_tab_simple(commande);
+	ft_free_tab_simple(cmd->commande);
 	free(path);
-	close(fd_out);
+	close(cmd->shell->fd_out);
 }
 
-int	ft_exec_out(int fd_out, char **commande, char **envp)
+int	ft_exec_out(t_shell *shell)
 {
 	char	*path;
 	int		pid;
 	int		sortie;
 
-	if (commande[0][0] != '/')
+	if (shell->cmd->commande[0][0] != '/')
 	{
-		path = ft_path(commande[0]);
-		if (ft_error(path, commande) == 0)
+		path = ft_path(shell->cmd->commande[0]);
+		if (ft_error(path, shell->cmd->commande) == 0)
 			return (ft_static(1));
 	}
-	if (commande[0][0] == '/')
-		path = ft_absolute(commande);
+	if (shell->cmd->commande[0][0] == '/')
+		path = ft_absolute(shell->cmd->commande);
 	pid = fork();
 	if (pid < 0)
 		return (0);
 	if (pid == 0)
 	{
-		dup2(fd_out, STDOUT_FILENO);
-		close(fd_out);
-		execve(path, commande, envp);
+		dup2(shell->fd_out, STDOUT_FILENO);
+		close(shell->fd_out);
+		execve(path, shell->cmd->commande, shell->envp);
 	}
-	ft_freeeee(commande, path, fd_out);
+	ft_freeeee(shell, path);
 	waitpid(pid, &sortie, 0);
 	ft_sub_exec(sortie);
 	return (0);

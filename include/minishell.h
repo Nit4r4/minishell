@@ -6,7 +6,7 @@
 /*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 14:21:03 by vferraro          #+#    #+#             */
-/*   Updated: 2022/10/06 15:47:46 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:37:39 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdio.h>
 # include <termios.h>
 # include <fcntl.h>
-# include <pthread.h>
 # include <limits.h>
 # include <stdbool.h>
 # include <signal.h>
@@ -49,6 +48,7 @@ typedef struct s_shell
 	char	**env;
 	char	**env_c;
 	char	**envp;
+	char	**sorted;
 	char	*cwd;
 	char	*cwdbis;
 	char	*home;
@@ -67,15 +67,13 @@ typedef struct s_cmd
 	char	**cmd;
 	char	**cmd_test;
 	char	**commande;
-	char	**sorted;
 	char	**e_c; // pourquoi e_c ? ca correspond a quoi
 	char	**cm;
 	char	**split_pipe;
-	char 	*path;
+	char	*path;
 	char	*path_cmd;
 	int		**fd_pipe;
 	int		nbr_cmd;
-	int		**fd_pipe;
 	int		k;
 	int		*code_caractere;
 	int		*fd_redir;
@@ -87,20 +85,11 @@ typedef struct s_cmd
 char	**g_var;
 
 /* UTILS */
-void	display_prompt(int num);
-void	define_input_signals(void);
-int		ft_echo(char **cmd_test);
 void	ft_execute_inbuilt(char **cmd_test, char **envp_copy);
-void	ft_process_onlyone(char *path_cmd, char **cmd, char **envp_copy);
-int		ft_process_one_classic(char **cmd, char **envp_copy);
 int		ft_process_one_nosplit(int *pid, char **cmd, char **enenvp_copyvp);
 int		ft_process_one_split(int *pid, char **cmd, char **envp_copy);
-void	ft_one(char **split_pipe, char **envp_copy, int *code_caractere);
-int		ft_giant_pipex(char **split_pipe, int nbr_cmd, char **envp_copy,
-			int *code_caractere);
 char	**ft_get_path(void);
 char	*ft_path(char *str);
-void	ft_process_onlyone(char *path_cmd, char **cmd, char **envp_copy);
 int		*ft_quote_place(char *str);
 int		ft_nbr_quote(char *str);
 void	ft_check_quote(char **tab, int n);
@@ -110,22 +99,12 @@ int		ft_cmd_error(char *path_cmd, char **cmd_infile, int *pid);
 int		ft_check_builtins(char **cmd);
 void	ft_execute_inbuilt_fd(int fd_out, char **cmd_test, char **envp_copy);
 int		ft_cd(t_shell *shell);
-void	ft_unset(char **cmd_test);
-int		ft_env(char **envp_copy, char **args_in);
-int		ft_pwd(void);
-int		ft_echo_fd(int fd_out, char **cmd_test);
-int		ft_exit(char *args[]);
-int		ft_nbr_args(char **cmd_test);
-char	**ft_malloc_tab(char **original);
-char	**ft_malloc_var(char **original);
 void	ft_free_tab_simple(char **tab);
 int		ft_subopen_code_caractere(char *str, int i);
 char	**ft_check_redir(int *fd, char **cmd, char **commande);
-int		ft_pipex_multi(char **split_pipe, char **envp_copy);
 void	ft_cpy_tab(char **original, char **copy);
 int		ft_error(char *path_cmd, char **cmd_infile);
 void	ft_exec_in(int fd_in, char **commande, char **envp_copy);
-int		ft_exec_in_out(int *fd, char **commande);
 int		ft_exec_out(int fd_out, char **commande, char **envp_copy);
 char	*ft_check_quote_simple(char *tab);
 int		*ft_code_char(char *str);
@@ -136,7 +115,6 @@ void	ft_infile_nosplit(char **cmd, int *fd, int *j, int i);
 void	ft_outfile_split(char **cmd, int *fd, int *i, int *j);
 void	ft_outfile_nosplit(char **cmd, int *fd, int i, int *j);
 void	ft_outfile_nosplit_append(char **cmd, int *fd, int i, int *j);
-void	ft_free_tab_int(int **fd, int *pid, int nbr_cmd);
 char	*ft_check_dollars(char *str, char **envp, int *code_caractere);
 char	*ft_strjoin_modif_free(char *s1, char const s2);
 int		ft_static(int i);
@@ -144,15 +122,10 @@ void	ft_files(char **cmd, int *fd, int *j, int *i);
 int		ft_write_tmp(int fd_out, char *str);
 void	ft_infile_tmp(char **cmd, int *fd, int i, int *j);
 char	*ft_absolute(char **cmd);
-void	ft_write_all(int fd_out, char **sorted);
 void	ft_export_fd(int fd_out, char **cmd_test, char **envp_copy);
-int		ft_env_fd(int fd_out, char **envp_copy, char **args_in);
-int		ft_pwd_fd(int fd_out);
 void	handle_global_signals(void);
 char	*ft_cmd_path(char **cmd);
 char	*ft_strjoin_free(char *s1, char const *s2);
-void	ft_fork_or_not(char **commande, char **envp_copy, int fd_out);
-void	ft_unset_multi(char **cmd_test);
 char	*ft_set_file_bis(char **cmd, int *j, int *i);
 void	ft_outfile_split_append(char **cmd, int *fd, int *i, int *j);
 void	ft_infile_tmp_split(char **cmd, int *fd, int *i, int *j);
@@ -172,25 +145,16 @@ char	*ft_set_magic_word(char **cmd, int *j, int i);
 char	*ft_set_magic_word_split(char **cmd, int *j, int i);
 char	*ft_strfinal_join(char *str_final, char *str_tmp);
 void	ft_free_infile_tmp(char *str_tmp, char *magic_word, char *str_final);
-void	ft_process_last(int fd_in, int fd_out, char **cmd, char **envp);
-void	ft_close_two_sup(int **fd_pipe, int k);
-int		ft_pipes(int **fd, int nbr_cmd);
-void	ft_waitpid_all(int nbr_cmd, int *pid);
-void	ft_process_onlyone(char *path_cmd, char **cmd, char **g_var);
-int		ft_too_long(char *path_cmd, char **cmd, int i);
 int		ft_check_close_quote(char *str);
 void	ft_infile_tmp(char **cmd, int *fd, int i, int *j);
 void	ft_boucle_while(char *infile, char *magic_word, int *fd);
 void	ft_write_close(int fd_tmp, char *str_final);
 void	ft_check_to_close_open(int *fd, char *infile);
 void	ft_fd_error(char *magic_word, int *fd);
-int		ft_too_long_bis(char *path_cmd, char *cmd, int i);
 char	*ft_getenv_glob(char *str);
-void	ft_unset_export(char *cmd_test);
 char	*ft_path_test(char *str);
 int		ft_check_space_test(char *str);
 void	ft_sort_alpha_bis(void);
-void	ft_sort_alpha_bis_envp(char **g_var);
 char	*ft_set_file(char **cmd, int *j, int i);
 char	*ft_set_file_bis(char **cmd, int *j, int *i);
 int		a(int j);
@@ -200,8 +164,28 @@ char	*ft_set_cmd(char **cmd, int *j, int i, int *code_caractere);
 
 /* BUILTINS */
 void	ft_replace_pwd(t_shell *shell);
+int		ft_cd(t_shell *shell);
+int		ft_echo_fd(t_shell *shell);
+int		ft_env_fd(t_shell *shell);
+int		ft_exit(t_cmd *cmd);
+int		ft_issign(char c);
+int		ft_isspace(int c);
+int		ft_export(t_shell *shell);
+int		ft_nbr_args(t_shell *shell);
+void	ft_sort_alpha(t_shell *shell);
+void	ft_print_all(t_shell *shell);
+void	ft_write_all(t_shell *shell);
+int		ft_pwd(void);
+int		ft_pwd_fd(t_shell *shell);
+void	ft_unset(t_shell *shell);
+void	ft_unset_export(t_shell *shell);
+void	ft_unset_multi(t_shell *shell);
+void	ft_sort_alpha_bis(void);
+void	ft_sort_alpha_bis_envp(t_shell *shell);
 
 /* PARSING */
+void	display_prompt(int num);
+void	define_input_signals(void);
 void	ft_close_middle(t_cmd *cmd);
 void	ft_close_all(t_cmd *cmd);
 void	ft_close_fl(t_cmd *cmd);
@@ -213,7 +197,6 @@ void	ft_export_fd_multi(t_shell *shell);
 void	ft_export_fd_test(t_shell *shell, char **g_var);
 void	ft_export_new_args(t_cmd *cmd);
 void	ft_sort_new_args(t_cmd *cmd);
-void	ft_sort_alpha(t_cmd *cmd);
 char	*ft_error_cmd(t_cmd *cmd);
 void	ft_no_in_process(t_shell *shell);
 void	ft_inbuilts(t_cmd *cmd);
@@ -228,7 +211,7 @@ void	ft_process_last(t_shell *shell);
 void	ft_process_last_out(t_shell *shell);
 void	ft_close_two_sup(t_cmd *cmd);
 void	ft_execute_last(t_cmd *cmd);
-void	ft_last_process(t_cmd *cmd, int i)
+void	ft_last_process(t_cmd *cmd, int i);
 void	ft_process_middle_bis(t_shell *shell);
 void	ft_close_because_too_long(t_cmd *cmd);
 void	ft_process_middle_bis(t_shell *shell);
@@ -253,11 +236,15 @@ void	ft_files(char **c, int *fd, int *j, int *i);
 void	ft_dup_close(int *fd);
 void	ft_execute(t_cmd *cmd);
 void	ft_close_close(int *fd);
-int	ft_exec_in_out(t_cmd *cmd);
+int		ft_exec_in_out(t_cmd *cmd);
+void	ft_process_onlyone(t_cmd *cmd, char **g_var);
+int		ft_too_long(t_cmd *cmd, int i);
+int		ft_too_long_bis(t_cmd *cmd, int i);
 
-
-/* MANDATORY */
-
-int		ft_no_one(char *str);
+/* MEMORY */
+char	**ft_malloc_tab(char **original);
+char	**ft_malloc_var(char **original);
+void	ft_free_tab_simple(char **tab);
+void	ft_free_tab_int(t_shell *shell, int *pid);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 16:34:26 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:38:53 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:24:36 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ void	ft_free_tab_simple(char **tab)
 	free(tab);
 }
 
-void	ft_free_tab_int(int **fd, int *pid, int nbr_cmd)
+void	ft_free_tab_int(t_shell *shell, int *pid)
 {
 	int	j;
 
 	j = 0;
 	free(pid);
-	while (j < nbr_cmd - 1)
+	while (j < shell->cmd->nbr_cmd - 1)
 	{
-		free(fd[j]);
+		free(shell->fd[j]);
 		j++;
 	}
-	free(fd);
+	free(shell->fd);
 }

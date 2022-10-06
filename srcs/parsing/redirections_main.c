@@ -3,46 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_main.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 17:48:27 by santonie          #+#    #+#             */
-/*   Updated: 2022/10/06 15:41:45 by vferraro         ###   ########.fr       */
+/*   Created: 2022/10/06 14:45:52 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 15:00:48 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
-char	**ft_return_tab(char **commande)
+char	**ft_return_tab(t_cmd *cmd)
 {
 	int	i;
 
 	i = -1;
-	while (commande[++i])
-		commande[i] = ft_check_quote_simple(commande[i]);
-	return (commande);
+	while (cmd->commande[++i])
+		cmd->commande[i] = ft_check_quote_simple(cmd->commande[i]);
+	return (cmd->commande);
 }
 
-void	ft_check_nbr_cmd(char **commande, int k, char **cm)
+void	ft_check_nbr_cmd(t_cmd *cmd, int k)
 {
 	int	nbr_cmd;
 
-	nbr_cmd = ft_nc(cmd);
+	nbr_cmd = ft_nc(cmd->cm);
 	if (k == 0)
 	{
-		commande[k] = ft_strdup("\0");
+		cmd->commande[k] = ft_strdup("\0");
 		if (nbr_cmd > 1)
 		{
 			while (++k < nbr_cmd)
-				commande[k] = NULL;
+				cmd->commande[k] = NULL;
 		}
 	}
 	else
-		commande[k] = NULL;
+		cmd->commande[k] = NULL;
 }
 
-int	ft_prob_redir(int *fd)
+int	ft_prob_redir(t_shell *shell)
 {
-	if (fd[0] == -5 || fd[1] == -5)
+	if (shell->fd[0] == -5 || shell->fd[1] == -5)
 	{
 		printf("Probleme de redirection\n");
 		ft_static(258);
@@ -51,39 +51,41 @@ int	ft_prob_redir(int *fd)
 	return (1);
 }
 
-void	ft_big_if(char **cm, int *i, int *j, int *fd)
+void	ft_big_if(t_cmd *cmd, int *i, int *j)
 {
-	while (cm[*i][*j])
+	while (cmd->cm[*i][*j])
 	{
-		ft_files(cm, fd, j, i);
-		if (fd[0] == -5 || fd[1] == -5)
+		ft_files(cmd->cm, cmd->shell->fd, j, i);
+		if (cmd->shell->fd[0] == -5 || cmd->shell->fd[1] == -5)
 			return ;
 	}
 }
 
 char	**ft_check_redir(t_cmd *cmd)
 {
-	int	*c;
+    int *cc;
 	int	i;
 	int	j;
+	int	k;
 
 	i = -1;
-	cmd->k = 0;
+	k = 0;
 	while (cmd->cm[++i])
 	{
-		c = ft_code_char(cmd->cm[i]);
+		cmd->code_caractere = ft_code_char(cmd->cm[i]);
+        cc = cmd->code_caractere;
 		j = 0;
 		while (cmd->cm[i][j] != 0)
 		{
-			if (((cmd->cm[i][j] != '<' && cmd->cm[i][j] != '>') || c[j] != 6) && cmd->cm[i][j])
-				cmd->commande[cmd->k++] = ft_set_cmd(cm, &j, i, c);
-			if ((cmd->cm[i][j] == '<' || cmd->cm[i][j] == '>') && c[j] == 6)
-				ft_big_if(cmd->cm, &i, &j, cmd->shell->fd);
+			if (((cmd->cm[i][j] != '<' && cmd->cm[i][j] != '>') || cc[j] != 6) && cmd->cm[i][j])
+				cmd->commande[k++] = ft_set_cmd(cmd, &j, i);
+			if ((cmd->cm[i][j] == '<' || cmd->cm[i][j] == '>') && cc[j] == 6)
+				ft_big_if(cmd, &i, &j);
 			if (ft_prob_redir(cmd->shell->fd) == 0)
 				break ;
 		}
-		free(c);
+		free(cc);
 	}
-	ft_check_nbr_cmd(cmd);
+	ft_check_nbr_cmd(cmd, k);
 	return (ft_return_tab(cmd->commande));
 }

@@ -3,59 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/27 16:05:33 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:37:26 by vferraro         ###   ########.fr       */
+/*   Created: 2022/09/22 16:31:10 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 13:28:40 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 void	ft_unset_change_var(char **tmp)
 {
-	int	i;
+	int	    i;
+    t_shell *shell;
 
-	g_var = ft_malloc_var(tmp);
+	shell->env = ft_malloc_var(tmp);
 	i = 0;
 	while (ft_strcmp(tmp[i], "zzzzzz") != 0)
 	{
-		g_var[i] = ft_strdup(tmp[i]);
+		shell->env[i] = ft_strdup(tmp[i]);
 		i++;
 	}
-	g_var[i] = NULL;
+	shell->env[i] = NULL;
 }
 
 void	ft_big_else(int i)
 {
 	char	**tmp;
+    t_shell *shell;
 
-	free(g_var[i]);
-	g_var[i] = ft_strdup("zzzzzz");
+	free(shell->env[i]);
+	shell->env[i] = ft_strdup("zzzzzz");
 	ft_sort_alpha_bis();
-	tmp = ft_malloc_tab(g_var);
-	ft_cpy_tab(g_var, tmp);
-	ft_free_tab_simple(g_var);
+	tmp = ft_malloc_tab(shell->env);
+	ft_cpy_tab(shell->env, tmp);
+	ft_free_tab_simple(shell->env);
 	ft_unset_change_var(tmp);
 	ft_free_tab_simple(tmp);
 }
 
-void	ft_unset(char **cmd_test)
+void	ft_unset(t_shell *shell)
 {
 	int		i;
 	int		j;
 	char	*cmp;
 
 	j = 0;
-	if (!cmd_test[1])
+	if (!shell->cmd->cmd_test[1])
 		return ;
-	while (cmd_test[++j])
+	while (shell->cmd->cmd_test[++j])
 	{
 		i = 0;
-		while (g_var[i])
+		while (shell->env[i])
 		{
-			cmp = ft_tmp_cmp(g_var, NULL, i);
-			if (ft_strcmp(cmp, cmd_test[j]) != 0)
+			cmp = ft_tmp_cmp(shell->env, NULL, i);
+			if (ft_strcmp(cmp, shell->cmd->cmd_test[j]) != 0)
 				i++;
 			else
 				ft_big_else(i);
@@ -64,17 +66,17 @@ void	ft_unset(char **cmd_test)
 	}
 }
 
-void	ft_unset_export(char *cmd_test)
+void	ft_unset_export(t_shell *shell)
 {
 	int		i;
 	char	*cmp;
 	char	**split;
 
-	split = ft_split(cmd_test, '=');
+	split = ft_split(shell->cmd->cmd_test, '=');
 	i = 0;
-	while (g_var[i])
+	while (shell->env[i])
 	{
-		cmp = ft_tmp_cmp(g_var, NULL, i);
+		cmp = ft_tmp_cmp(shell->env, NULL, i);
 		if (ft_strcmp(cmp, split[0]) != 0)
 			i++;
 		else
@@ -84,8 +86,8 @@ void	ft_unset_export(char *cmd_test)
 	ft_free_tab_simple(split);
 }
 
-void	ft_unset_multi(char **cmd_test)
+void	ft_unset_multi(t_shell *shell)
 {
-	(void) cmd_test;
+	(void) shell->cmd->cmd_test;
 	exit (0);
 }

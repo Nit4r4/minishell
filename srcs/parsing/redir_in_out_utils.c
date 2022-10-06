@@ -3,33 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   redir_in_out_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/27 16:13:59 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:37:57 by vferraro         ###   ########.fr       */
+/*   Created: 2022/10/06 15:22:45 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 15:35:24 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
-char	*ft_set_file(char **cmd, int *j, int i)
+char	*ft_set_file(t_cmd *cmd, int *j, int i)
 {
 	int		start;
 	int		len;
 	char	*tmp;
 	char	*infile;
 
-	if (cmd[i][*j + 1])
+	if (cmd->cmd[i][*j + 1])
 	{
 		*j = *j + 1;
 		start = *j;
 		len = 0;
-		while (cmd[i][*j] != '<' && cmd[i][*j] != '>' && cmd[i][*j])
+		while (cmd->cmd[i][*j] != '<' && cmd->cmd[i][*j] != '>' 
+            && cmd->cmd[i][*j])
 		{
 			len++;
 			*j = *j + 1;
 		}
-		tmp = ft_substr(cmd[i], start, len);
+		tmp = ft_substr(cmd->cmd[i], start, len);
 		infile = ft_strdup(tmp);
 		free(tmp);
 		return (infile);
@@ -37,28 +38,29 @@ char	*ft_set_file(char **cmd, int *j, int i)
 	return (NULL);
 }
 
-char	*ft_set_file_bis(char **cmd, int *j, int *i)
+char	*ft_set_file_bis(t_cmd *cmd, int *j, int *i)
 {
 	int		start;
 	int		len;
 	char	*tmp;
 	char	*infile;
 
-	if (cmd[*i][*j])
+	if (cmd->cmd[*i][*j])
 	{
 		start = *j;
 		len = 0;
-		while (cmd[*i][*j] == '<' || cmd[*i][*j] == '>')
+		while (cmd->cmd[*i][*j] == '<' || cmd->cmd[*i][*j] == '>')
 		{
 			len++;
 			*j = *j + 1;
 		}	
-		while (cmd[*i][*j] != '<' && cmd[*i][*j] != '>' && cmd[*i][*j])
+		while (cmd->cmd[*i][*j] != '<' && cmd->cmd[*i][*j] != '>' 
+            && cmd->cmd[*i][*j])
 		{
 			len++;
 			*j = *j + 1;
 		}
-		tmp = ft_substr(cmd[*i], start, len);
+		tmp = ft_substr(cmd->cmd[*i], start, len);
 		infile = ft_strdup(tmp);
 		free(tmp);
 		return (infile);
@@ -76,16 +78,19 @@ int	b(int j)
 	return (j + 2);
 }
 
-void	ft_very_first_if(char **c, int *fd, int *i, int *j)
+void	ft_very_first_if(t_cmd *cmd, t_shell *shell, int *i, int *j)
 {
+    char **c;
+
+    c = cmd->cmd;
 	if (c[*i][*j + 1] != '<' && c[*i][*j + 1])
-		ft_infile_nosplit(c, fd, j, *i);
+		ft_infile_nosplit(c, shell->fd, j, *i);
 	else if (c[*i][*j + 1] != '<' && !c[*i][*j + 1] && c[*i + 1])
-		ft_infile_split(c, fd, i, j);
+		ft_infile_split(c, shell->fd, i, j);
 	else if (c[*i][*j + 1] && c[*i][*j + 1] == '<' && c[*i][*j + 2])
-		ft_infile_tmp(c, fd, *i, j);
+		ft_infile_tmp(c, shell->fd, *i, j);
 	else if (c[*i][*j + 1] == '<' && !c[*i][*j + 2] && c[*i + 1])
-		ft_infile_tmp_split(c, fd, i, j);
+		ft_infile_tmp_split(c, shell->fd, i, j);
 	else
-		fd[0] = -5;
+		shell->fd[0] = -5;
 }

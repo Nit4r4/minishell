@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 17:52:04 by santonie          #+#    #+#             */
-/*   Updated: 2022/10/04 15:29:24 by vferraro         ###   ########.fr       */
+/*   Created: 2022/10/06 14:16:50 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 14:22:06 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 void	display_prompt_block(int num)
 {
 	num++;
-	ft_printf("\n");
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }
@@ -23,7 +23,7 @@ void	display_prompt_block(int num)
 void	display_prompt_block_exit(int num)
 {
 	num++;
-	ft_printf("Quit 3\n");
+	write(1, "Quit 3\n", 7);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }
@@ -38,7 +38,7 @@ void	display_prompt(int num)
 {
 	num++;
 	ft_static(1);
-	ft_printf("\n");
+	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();

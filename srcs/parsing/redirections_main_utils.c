@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections_main_utils.c                          :+:      :+:    :+:   */
+/*   redirections_main.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 17:48:27 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:37:44 by vferraro         ###   ########.fr       */
+/*   Created: 2022/10/06 14:40:00 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 14:43:04 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
-char	*ft_set_cmd(char **cmd, int *j, int i, int *code_caractere)
+char	*ft_set_cmd(t_cmd *cmd, int *j, int i)
 {
 	int		start;
 	int		len;
@@ -21,13 +21,13 @@ char	*ft_set_cmd(char **cmd, int *j, int i, int *code_caractere)
 
 	start = *j;
 	len = 0;
-	while (((cmd[i][*j] != '<' && cmd[i][*j] != '>')
-			|| code_caractere[*j] != 6) && cmd[i][*j])
+	while (((cmd->cmd[i][*j] != '<' && cmd->cmd[i][*j] != '>')
+			|| cmd->code_caractere[*j] != 6) && cmd->cmd[i][*j])
 	{
 		len++;
 		*j = *j + 1;
 	}
-	tmp = ft_substr(cmd[i], start, len);
+	tmp = ft_substr(cmd->cmd[i], start, len);
 	commande = ft_strdup(tmp);
 	free(tmp);
 	return (commande);

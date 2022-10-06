@@ -3,46 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 17:34:28 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:38:04 by vferraro         ###   ########.fr       */
+/*   Created: 2022/09/22 11:20:45 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 13:08:22 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/minishell.h"
+#include "../include/minishell.h"
 
 int	ft_pwd(void)
 {
-	char	*cwd;
+	t_shell *shell;
 
-	cwd = NULL;
-	cwd = getcwd(cwd, 0);
-	if (cwd == NULL)
+	shell->cwd = NULL;
+	shell->cwd = getcwd(shell->cwd, 0);
+	if (shell->cwd == NULL)
 	{
 		perror("Error");
 		return (EXIT_FAILURE);
 	}
 	else
-		printf("%s\n", cwd);
+		ft_printf("%s\n", shell->cwd);
 	return (EXIT_SUCCESS);
 }
 
-int	ft_pwd_fd(int fd_out)
+int	ft_pwd_fd(t_shell *shell)
 {
-	char	*cwd;
-
-	cwd = NULL;
-	cwd = getcwd(cwd, 0);
-	if (cwd == NULL)
+	shell->cwd = NULL;
+	shell->cwd = getcwd(shell->cwd, 0);
+	if (shell->cwd == NULL)
 	{
 		perror("Error");
 		exit (1);
 	}
 	else
-	{
-		write(fd_out, cwd, ft_strlen(cwd));
-		write(fd_out, "\n", 1);
-	}
+		ft_printf("%s\n", shell->cwd);
 	exit (0);
 }
