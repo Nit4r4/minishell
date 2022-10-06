@@ -77,11 +77,9 @@ typedef struct s_cmd
 	t_shell	*shell;
 }	t_cmd;
 
-
 /* MANDATORY */
 
 /* BUILTINS */
-
 int		ft_cd(t_shell *shell);
 int		ft_echo_fd(t_shell *shell);
 int		ft_env(t_shell *shell);
