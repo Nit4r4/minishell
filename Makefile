@@ -13,13 +13,15 @@ CYAN = \033[36m
 NAME = minishell
 
 SRCS = srcs/prompt.c
+		builtins/cd.c
 		builtins/echo.c
 		builtins/env.c
+		builtins/export_utils.c
 		builtins/export.c
 		builtins/pwd.c
 		builtins/unset.c
 OBJS 	= ${SRCS:.c=.o}
-MAIN	= srcs/minishell.c
+MAIN	= srcs/echo.c
 
 HEADER	= -Iinclude
 

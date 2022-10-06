@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   redirections_main.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: creyt <marvin@42lausanne.ch>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/22 13:46:28 by creyt             #+#    #+#             */
-/*   Updated: 2022/09/22 16:57:25 by creyt            ###   ########.fr       */
+/*   Created: 2022/10/06 14:40:00 by creyt             #+#    #+#             */
+/*   Updated: 2022/10/06 14:43:04 by creyt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../include/minishell.h"
 
-int	ft_env(t_shell *shell, char **tab)
+char	*ft_set_cmd(t_cmd *cmd, int *j, int i)
 {
-	int	i;
+	int		start;
+	int		len;
+	char	*tmp;
+	char	*commande;
 
-	i = 0;
-	if (tab[1])
+	start = *j;
+	len = 0;
+	while (((cmd->cmd[i][*j] != '<' && cmd->cmd[i][*j] != '>')
+			|| cmd->code_caractere[*j] != 6) && cmd->cmd[i][*j])
 	{
-		ft_printf("env: %s : No such file or directory\n", shell->cmd[1]);
-		return (0);
+		len++;
+		*j = *j + 1;
 	}
-	while (shell->env[i])
-	{
-		ft_printf("%s\n", shell->env[i]);
-		i++;
-	}
-	return (0);
+	tmp = ft_substr(cmd->cmd[i], start, len);
+	commande = ft_strdup(tmp);
+	free(tmp);
+	return (commande);
 }
