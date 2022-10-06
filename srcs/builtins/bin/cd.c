@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/22 16:01:22 by creyt             #+#    #+#             */
-/*   Updated: 2022/10/06 10:41:22 by vferraro         ###   ########.fr       */
+/*   Created: 2022/07/26 14:43:39 by santonie          #+#    #+#             */
+/*   Updated: 2022/10/06 10:22:00 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "./include/minishell.h"
 
 void	ft_replace_pwd(t_shell *shell)
 {
@@ -54,42 +54,44 @@ char	**ft_env_copy(char **envp_copy)
 	return (copy_env);
 }
 
-int	ft_free_cwd(t_shell *shell)
+void	ft_perror(t_shell *shell)
 {
-	free(shell->cwd);
-	free(shell->cwdbis);
-	free(shell->home);
+	free (cwd);
+	perror("Error: ");
+	ft_static(1);
 }
 
-void	p_error(t_shell *shell)
+void	ft_freeze(char *cwd, char *cwdbis, char *home)
 {
-	free(shell->cwd);
-	perror("\033[31mError");
+	free (cwd);
+	free (cwdbis);
+	free (home);
 }
 
-int	ft_cd(t_shell *shell)
+int	ft_cd(char **cmd_test, char **envp_copy)
 {
-	int	i;
-	char	**args;
+	int		i;
+	char	*cwd;
+	char	*cwdbis;
+	char	*home;
 
 	i = 0;
-	args = shell->cmd->args;
-	shell->cwd = NULL;
-	shell->cwdbis = NULL;
-	shell->cwd = getcwd(shell->cwd, 0);
-	shell->home = NULL;
-	/* trouver comme initialiser le home par une fonction */
-	if ((args[1] && args[1][0] != '~') || (args[1] && args[1][0] == '~' && args[1][1]))
-		i = chdir(args[1]);
-	else if (!args[1] || (args[1][0] == '~') && !args[1] && !args[1][1])
-		i = chdir(shell->home);
+	cwd = NULL;
+	cwdbis = NULL;
+	cwd = getcwd(cwd, 0);
+	home = ft_getenv_glob("HOME");
+	if ((cmd_test[1] && cmd_test[1][0] != '~') ||
+			(cmd_test[1] && cmd_test[1][0] == '~' && cmd_test[1][1]))
+		i = chdir(cmd_test[1]);
+	else if (!cmd_test[1] || (cmd_test[1][0] == '~' && !cmd_test[1][1]))
+		i = chdir(home);
 	if (i != 0)
 	{
-		p_error(shell->cwd);
+		ft_perror(cwd);
 		return (0);
 	}
-	shell->cwdbis = getcwd(shell->cwdbis, 0);
-	ft_replace_pwd(shell);
-	ft_free_cwd(shell);
+	cwdbis = getcwd(cwdbis, 0);
+	ft_replace_pwd(envp_copy, cwd, cwdbis);
+	ft_freeze(cwd, cwdbis, home);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_main.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 17:48:27 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:37:41 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:41:45 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_check_nbr_cmd(char **commande, int k, char **cm)
 {
 	int	nbr_cmd;
 
-	nbr_cmd = ft_nc(cm);
+	nbr_cmd = ft_nc(cmd);
 	if (k == 0)
 	{
 		commande[k] = ft_strdup("\0");
@@ -61,30 +61,29 @@ void	ft_big_if(char **cm, int *i, int *j, int *fd)
 	}
 }
 
-char	**ft_check_redir(int *fd, char **cm, char **commande)
+char	**ft_check_redir(t_cmd *cmd)
 {
 	int	*c;
 	int	i;
 	int	j;
-	int	k;
 
 	i = -1;
-	k = 0;
-	while (cm[++i])
+	cmd->k = 0;
+	while (cmd->cm[++i])
 	{
-		c = ft_code_char(cm[i]);
+		c = ft_code_char(cmd->cm[i]);
 		j = 0;
-		while (cm[i][j] != 0)
+		while (cmd->cm[i][j] != 0)
 		{
-			if (((cm[i][j] != '<' && cm[i][j] != '>') || c[j] != 6) && cm[i][j])
-				commande[k++] = ft_set_cmd(cm, &j, i, c);
-			if ((cm[i][j] == '<' || cm[i][j] == '>') && c[j] == 6)
-				ft_big_if(cm, &i, &j, fd);
-			if (ft_prob_redir(fd) == 0)
+			if (((cmd->cm[i][j] != '<' && cmd->cm[i][j] != '>') || c[j] != 6) && cmd->cm[i][j])
+				cmd->commande[cmd->k++] = ft_set_cmd(cm, &j, i, c);
+			if ((cmd->cm[i][j] == '<' || cmd->cm[i][j] == '>') && c[j] == 6)
+				ft_big_if(cmd->cm, &i, &j, cmd->shell->fd);
+			if (ft_prob_redir(cmd->shell->fd) == 0)
 				break ;
 		}
 		free(c);
 	}
-	ft_check_nbr_cmd(commande, k, cm);
-	return (ft_return_tab(commande));
+	ft_check_nbr_cmd(cmd);
+	return (ft_return_tab(cmd->commande));
 }

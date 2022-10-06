@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 15:48:13 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:39:29 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:09:32 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,24 @@ void	ft_error_fd(int fd, char *infile)
 	}
 }
 
-char	*ft_error_cmd(char **cmd)
+char	*ft_error_cmd(t_cmd *cmd)
 {
 	char	*path_cmd;
 	char	*check_path;
 
-	if (cmd[0][0] != '/')
+	if (cmd->cmd[0][0] != '/')
 	{
-		path_cmd = ft_path(cmd[0]);
-		if (ft_error(path_cmd, cmd) == 0)
+		path_cmd = ft_path(cmd->cmd[0]);
+		if (ft_error(path_cmd, cmd->cmd) == 0)
 		{
 			ft_static(127);
 			exit (127);
 		}
 	}
-	if (cmd[0][0] == '/')
+	if (cmd->cmd[0][0] == '/')
 	{
 		path_cmd = ft_absolute(cmd);
-		check_path = ft_path(cmd[0]);
+		check_path = ft_path(cmd->cmd[0]);
 		if (ft_strcmp(path_cmd, check_path) != 0)
 		{
 			free(path_cmd);

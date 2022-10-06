@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 16:20:31 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:39:13 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:38:39 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-int	ft_nbr_args(char **cmd_test)
+int	ft_nbr_args(t_cmd *cmd)
 {
 	int	i;
 	int	nbr_args;
 
 	i = 1;
 	nbr_args = 0;
-	while (cmd_test[i])
+	while (cmd->cmd_test[i])
 	{
 		i++;
 		nbr_args++;
@@ -55,27 +55,27 @@ void	ft_sort_alpha(char **g_var)
 	}
 }
 
-void	ft_printf_all(char **sorted)
+void	ft_printf_all(t_cmd *cmd)
 {
 	int	i;
 
 	i = 0;
-	while (sorted[i])
+	while (cmd->sorted[i])
 	{
-		printf("declare -x %s\n", sorted[i]);
+		printf("declare -x %s\n", cmd->sorted[i]);
 		i++;
 	}
 }
 
-void	ft_write_all(int fd_out, char **sorted)
+void	ft_write_all(t_cmd *cmd, int fd_out)
 {
 	int		i;
 	char	**split_tmp;
 
 	i = 0;
-	while (sorted[i])
+	while (cmd->sorted[i])
 	{
-		split_tmp = ft_split(sorted[i], '=');
+		split_tmp = ft_split(cmd->sorted[i], '=');
 		write(fd_out, "declare -x ", 11);
 		write(fd_out, split_tmp[0], ft_strlen(split_tmp[0]));
 		write(fd_out, "=", 1);

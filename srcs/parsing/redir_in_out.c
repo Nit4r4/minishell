@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_in_out.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 16:13:59 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:37:55 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:46:57 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	ft_dup_close(int *fd)
 	close(fd[1]);
 }
 
-void	ft_execute(int *fd, char *path, char **commande)
+void	ft_execute(t_cmd *cmd)
 {
-	ft_dup_close(fd);
-	execve(path, commande, g_var);
+	ft_dup_close(cmd->shell->fd);
+	execve(cmd->path, cmd->commande, g_var);
 }
 
 void	ft_close_close(int *fd)
@@ -51,28 +51,27 @@ void	ft_close_close(int *fd)
 	close(fd[1]);
 }
 
-int	ft_exec_in_out(int *fd, char **commande)
+int	ft_exec_in_out(t_cmd *cmd)
 {
-	char	*path;
 	int		pid;
 	int		sortie;
 
-	if (commande[0][0] != '/')
+	if (cmd->commande[0][0] != '/')
 	{
-		path = ft_path(commande[0]);
-		if (ft_error(path, commande) == 0)
+		cmd->path = ft_path(cmd->commande[0]);
+		if (ft_error(cmd->path, cmd->commande) == 0)
 			return (ft_static(1));
 	}
-	if (commande[0][0] == '/')
-		path = ft_absolute(commande);
+	if (cmd->commande[0][0] == '/')
+		cmd->path = ft_absolute(cmd->commande);
 	pid = fork();
 	if (pid < 0)
 		return (0);
 	if (pid == 0)
-		ft_execute(fd, path, commande);
-	ft_free_tab_simple(commande);
-	free(path);
-	ft_close_close(fd);
+		ft_execute(cmd);
+	ft_free_tab_simple(cmd->commande);
+	free(cmd->path);
+	ft_close_close(cmd->shell->fd);
 	waitpid(pid, &sortie, 0);
 	if (!WIFEXITED(sortie))
 		return (ft_static(130));

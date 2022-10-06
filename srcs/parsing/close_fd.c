@@ -3,55 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   close_fd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 14:48:57 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:39:50 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:14:19 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minishell.h"
 
-void	ft_close_fl(int k, int nbr_cmd, int **fd_pipe)
+void	ft_close_fl(t_cmd *cmd)
 {
 	int	j;
 
 	j = 0;
-	while (j < nbr_cmd - 1)
+	while (j < cmd->nbr_cmd - 1)
 	{
-		if (j != k)
+		if (j != cmd->k)
 		{
-			close(fd_pipe[j][0]);
-			close(fd_pipe[j][1]);
+			close(cmd->fd_pipe[j][0]);
+			close(cmd->fd_pipe[j][1]);
 		}
 		j++;
 	}
 }
 
-void	ft_close_all(int nbr_cmd, int **fd_pipe)
+void	ft_close_all(t_cmd *cmd)
 {
 	int	j;
 
 	j = 0;
-	while (j < nbr_cmd - 1)
+	while (j < cmd->nbr_cmd - 1)
 	{
-		close(fd_pipe[j][0]);
-		close(fd_pipe[j][1]);
+		close(cmd->fd_pipe[j][0]);
+		close(cmd->fd_pipe[j][1]);
 		j++;
 	}
 }
 
-void	ft_close_middle(int k, int nbr_cmd, int **fd_pipe)
+void	ft_close_middle(t_cmd *cmd)
 {
 	int	j;
 
 	j = 0;
-	while (j < nbr_cmd - 1)
+	while (j < cmd->nbr_cmd - 1)
 	{
-		if (j != k)
-			close(fd_pipe[j][0]);
-		if (j != (k + 1))
-			close(fd_pipe[j][1]);
+		if (j != cmd->k)
+			close(cmd->fd_pipe[j][0]);
+		if (j != (cmd->k + 1))
+			close(cmd->fd_pipe[j][1]);
 		j++;
 	}
 }

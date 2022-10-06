@@ -23,11 +23,11 @@ SRCS 	= srcs/minishell.c\
 		srcs/builtins/echo.c\
 		srcs/builtins/cd.c\
 		srcs/builtins/unset.c\
-		srcs/parsing/env.c\
-		srcs/parsing/export.c\
+		srcs/builtins/env.c\
+		srcs/builtins/export.c\
 		srcs/builtins/pwd.c\
 		srcs/builtins/exit.c\
-		srcs/parsing/export_utils.c\
+		srcs/builtins/export_utils.c\
 		utils/minishell_utils.c\
 		srcs/memory/free.c\
 		srcs/memory/malloc.c\
@@ -48,7 +48,7 @@ SRCS 	= srcs/minishell.c\
 		srcs/parsing/vodka.c\
 		srcs/builtins/exit_utils.c\
 		srcs/parsing/first_process_utils.c\
-		srcs/parsing/export_utils_bis.c\
+		srcs/builtins/export_utils_bis.c\
 		srcs/parsing/heredoc_utils.c\
 		srcs/parsing/last_process_utils.c\
 		srcs/parsing/multi_cmds_utils.c\

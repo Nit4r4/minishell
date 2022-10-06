@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_utils_bis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 15:24:32 by santonie          #+#    #+#             */
-/*   Updated: 2022/09/27 13:39:45 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:20:16 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ char	*ft_strjoin_free(char *s1, char const *s2)
 	return (dst);
 }
 
-void	ft_free_all(char *s1, char *s2, int *code_caractere)
+void	ft_free_all(t_cmd *cmd, char *s1, char *s2)
 {
 	free(s1);
 	free(s2);
-	free(code_caractere);
+	free(cmd->code_caractere);
 }
 
-char	*ft_strjoin_free_free(char *s1, char *s2, int *code_caractere)
+char	*ft_strjoin_free_free(t_cmd *cmd, char *s1, char *s2)
 {
 	char	*dst;
 	int		i;
@@ -58,7 +58,7 @@ char	*ft_strjoin_free_free(char *s1, char *s2, int *code_caractere)
 	if (!s1)
 	{
 		dst = ft_strdup(s2);
-		free(code_caractere);
+		free(cmd->code_caractere);
 		free(s2);
 		return (dst);
 	}
@@ -70,7 +70,7 @@ char	*ft_strjoin_free_free(char *s1, char *s2, int *code_caractere)
 	while (s2[++j])
 		dst[i + j] = s2[j];
 	dst[i + j] = '\0';
-	ft_free_all(s1, s2, code_caractere);
+	ft_free_all(s1, s2, cmd->code_caractere);
 	return (dst);
 }
 

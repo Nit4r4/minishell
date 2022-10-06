@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils_bis.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 12:44:10 by lbelet            #+#    #+#             */
-/*   Updated: 2022/09/27 13:38:48 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:44:45 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_boucle_while(char *infile, char *magic_word, int *fd)
 	fd_tmp = open(infile, O_RDWR | O_TRUNC | O_CREAT, 0666);
 	while (1)
 	{
-		str_tmp = readline("> ");
+		str_tmp = readline("> "); // ?? mettre $ ou pas...
 		if (ft_strcmp(str_tmp, magic_word) != 0)
 			str_final = ft_strfinal_join(str_final, str_tmp);
 		else if (ft_strncmp(str_tmp, magic_word, ft_strlen(magic_word)) == 0)

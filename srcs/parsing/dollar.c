@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vferraro <vferraro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vferraro <vferraror@student.42lausanne.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 14:55:35 by santonie          #+#    #+#             */
-/*   Updated: 2022/10/04 14:26:50 by vferraro         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:25:53 by vferraro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*ft_sub_dollar(char *s, int *i, char **g_var, char *tmp)
 	return (ft_strjoin_free_free(tmp, change, c_c));
 }
 
-char	*ft_check_dollars(char *str, char **g_var, int *code_caractere)
+char	*ft_check_dollars(t_cmd *cmd, char *str, char **g_var)
 {
 	int		i;
 	char	*tmp;
@@ -86,7 +86,7 @@ char	*ft_check_dollars(char *str, char **g_var, int *code_caractere)
 	tmp = NULL;
 	while (str[i])
 	{
-		if ((str[i] != '$') || (str[i] == '$' && code_caractere[i] == 8)
+		if ((str[i] != '$') || (str[i] == '$' && cmd->code_caractere[i] == 8)
 			|| (str[i] == '?' && str[i - 1] != '$')
 			|| (str[i] == '$' && !str[i + 1]) || str[i + 1] == ' ')
 			tmp = ft_strjoin_modif_free(tmp, str[i]);
